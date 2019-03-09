@@ -66,8 +66,14 @@ class TestEnergyDigItem(unittest.TestCase):
         self.assertEqual(len(items3), 1)
         self.assertEqual(len(items4), 1)
 
+    # 建立分配项
+    def step_split(self):
+        a = EnergyDigItem.objects.first()
+        print(a.do_split())
+
     def test_steps(self):
         self.step1()
         self.step2()
         self.step3()
         self.step4()
+        self.step_split()

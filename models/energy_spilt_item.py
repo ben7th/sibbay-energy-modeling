@@ -11,6 +11,7 @@ POSITION_CODES = {
 # 记录挖矿分配项（流水项）
 class EnergySplitItem(Document):
     # 隶属的记录挖矿记录项
+    # CASCADE (2) - Deletes the documents associated with the reference.
     dig_item = ReferenceField('EnergyDigItem', reverse_delete_rule=CASCADE, required=True)
 
     # 分配位

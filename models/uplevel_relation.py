@@ -8,7 +8,7 @@ class UplevelRelation(Document):
     base_user = ReferenceField(User, required=True, unique=True)
 
     # 该用户的上级用户
-    uplevel_user = ReferenceField(User)
+    uplevel_user = ReferenceField(User, required=True)
 
     def clean(self):
         # 如果两个用户之间已经有上下级关系，不能重复创建
@@ -38,7 +38,7 @@ class UplevelRelation(Document):
     def set_relation(cls, base, uplevel):
         return cls.objects.create(base_user=base, uplevel_user=uplevel)
 
-    # 获取指定用户的上级用户
+    # 获取指定用户的直接上级用户
     @classmethod
     def get_uplevel_of(cls, user):
         x = cls.objects(base_user=user).first()
@@ -61,7 +61,7 @@ class UplevelRelation(Document):
                 break
         return result
 
-    # 获取指定用户的下级用户
+    # 获取指定用户的直接下级用户
     @classmethod
     def get_downlevels_of(cls, user):
         items = cls.objects(uplevel_user=user)

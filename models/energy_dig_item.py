@@ -4,6 +4,8 @@ from datetime import datetime
 from models.fake.drugging import FakeDrugging
 from models.fake.treating import FakeTreating
 from models.user import User
+from models.uplevel_relation import UplevelRelation
+from models.white_deer_relation import WhiteDeerRelation
 
 # 挖矿类型与来源对照表
 DIG_TABLE = {
@@ -70,6 +72,16 @@ class EnergyDigItem(Document):
         )
 
         return edi
+
+    # 建立分配项
+    def do_split(self):
+        # 先找到所有分配位对应的 user
+        userC = self.dig_user
+        userU1 = UplevelRelation.get_uplevel_of(userC)
+        userU2 = UplevelRelation.get_uplevel_of(userU1)
+        userU3 = UplevelRelation.get_uplevel_of(userU2)
+        userWHITE = WhiteDeerRelation.get_white_user_of(userC)
+        return [userC, userU1, userU2, userU3, userWHITE]
       
     # 获取来源对象
     def source(self):
